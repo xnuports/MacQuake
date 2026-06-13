@@ -52,14 +52,13 @@ static OSStatus RenderCallback(void *inRefCon,
 		return noErr;
 
 	if (shm->samplebits == 16 && shm->channels == 2) {
-		// Interleaved stereo output
 		short *out = (short *)ioData->mBuffers[0].mData;
 		short *p = (short *)buffer;
 		for (i = 0; i < (int)inNumberFrames; i++) {
-			int idx = (playpos * 2) & out_mask;
+			int idx = playpos & out_mask;
 			out[i * 2] = p[idx];
 			out[i * 2 + 1] = p[idx + 1];
-			playpos++;
+			playpos += 2;
 		}
 	} else if (shm->samplebits == 16 && shm->channels == 1) {
 		short *out = (short *)ioData->mBuffers[0].mData;
@@ -72,10 +71,10 @@ static OSStatus RenderCallback(void *inRefCon,
 		unsigned char *out = (unsigned char *)ioData->mBuffers[0].mData;
 		unsigned char *p = buffer;
 		for (i = 0; i < (int)inNumberFrames; i++) {
-			int idx = (playpos * 2) & out_mask;
+			int idx = playpos & out_mask;
 			out[i * 2] = p[idx];
 			out[i * 2 + 1] = p[idx + 1];
-			playpos++;
+			playpos += 2;
 		}
 	} else {
 		unsigned char *out = (unsigned char *)ioData->mBuffers[0].mData;
