@@ -15,6 +15,9 @@ extern int mouse_buttonstate;
 extern int mouse_oldbuttonstate;
 extern qboolean mouse_avail;
 
+extern cvar_t lookstrafe;
+extern kbutton_t in_mlook;
+
 void IN_Init(void)
 {
 	Cvar_RegisterVariable(&m_filter);
@@ -25,6 +28,7 @@ void IN_Init(void)
 
 	mouse_x = mouse_y = 0.0;
 	mouse_avail = true;
+	in_mlook.state = 1;
 }
 
 void IN_Shutdown(void)
