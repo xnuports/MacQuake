@@ -66,6 +66,11 @@ int UDP_Init (void)
 	// determine my name & address
 	gethostname(buff, MAXHOSTNAMELEN);
 	local = gethostbyname(buff);
+	if (!local)
+	{
+		Con_Printf("UDP_Init: Unable to resolve hostname\n");
+		return -1;
+	}
 	myAddr = *(int *)local->h_addr_list[0];
 
 	// if the quake hostname isn't set, set it to the machine name
